@@ -38,7 +38,7 @@
 <!-- <h1 class="bg-gray-200 content-center">Товары</h1> -->
 <div class="grid grid-cols-3 gap-4 my-10">
   {% for product in products %}
-      <div class="max-w-sm rounded overflow-hidden shadow-lg">
+      <div class="max-w-sm rounded overflow-hidden shadow-lg bg-gray-100 hover:bg-white">
       {% if product.product_image %}
         <img class="w-full" src="{{ product.product_image.url }}" alt="product: {{ product.name }}">
       {% endif %}

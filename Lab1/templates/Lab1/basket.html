@@ -67,12 +67,12 @@
         <div class="my-8">
             <form class="w-full" method='POST'>
               {% csrf_token %}
-              <div class="flex flex-wrap -mx-3 mb-6">
+              <div class="flex flex-wrap -mx-3 mb-6 ">
                 <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                   <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
                     Номер телефона
                   </label>
-                  {{ order_form.phone_number|add_attr:"placeholder:+xxxxxxxxxx,pattern:+[0-9]{10}, class:appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" }}
+                  {{ order_form.phone_number|add_attr:"placeholder:+xxxxxxxxxx,pattern:\+[0-9]{12}, class:appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" }}
                   <!-- <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Jane"> -->
                   <p class="text-red-500 text-xs italic">Введите Ваш номер телефона</p>
                 </div>
@@ -80,7 +80,7 @@
                   <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
                     Пожелания
                   </label>
-                  {{ order_form.wishes|add_attr:"class:form-textarea bg-gray-200 text-gray-700 border rounded mt-1 block w-full,rows:5,placeholder:Оставьте Ваши пожелания" }}
+                  {{ order_form.wishes|add_attr:"maxlength:100, class:form-textarea bg-gray-200 text-gray-700 border rounded mt-1 block w-full,rows:5,placeholder:Оставьте Ваши пожелания" }}
                   <!-- <span class="text-sm">
                     Не перезванивайте мне, пожалуйста
                   </span> -->
@@ -89,7 +89,7 @@
                   <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
                     Дополнительно
                   </label>
-                  {{ order_form.dont_call|add_attr:"class:mr-2 leading-tight" }}
+                  {{ order_form.dont_call|add_attr:"ml-4 text-xl" }}
                   <span class="text-sm">
                     Не перезванивайте мне, пожалуйста
                   </span>

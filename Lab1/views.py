@@ -210,7 +210,7 @@ class AdminOrders(View):
 
             for order in orders:
                 orders_dict[order.basket.user.username] = {'products':[{'name':basket_item.product.name,'price':basket_item.product.price,'amount':basket_item.amount} for basket_item in order.basket.products.all()]}
-                orders_dict[order.basket.user.username].update({'form':AdminOrderForm(instance=order),'phone_number':order.phone_number,'dont_call':order.dont_call, 'common_price':order.basket.calculate_common_price(),'order_id':order.id})
+                orders_dict[order.basket.user.username].update({'form':AdminOrderForm(instance=order),'phone_number':order.phone_number,'dont_call':order.dont_call, 'common_price':order.basket.calculate_common_price(),'order_id':order.id, 'wishes':order.wishes})
             # order_formset = OrderFormSet(orders)
             # common_price = 0
             # for basket_item in basket.products.all():

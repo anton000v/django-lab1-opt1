@@ -21,14 +21,15 @@
 
 {% block content %}
 {% if user.is_superuser %}
-  <table class="table-auto">
+  <table class="table-auto w-full">
     <thead>
       <tr>
         <th class="px-4 py-2">Имя</th>
-        <th class="px-4 py-2">Заказ</th>
+        <th class="px-4 py-2">Описание заказа</th>
         <th class="px-4 py-2">Сумма</th>
         <th class="px-4 py-2">Телефон</th>
-        <th class="px-4 py-2">Перезванивать</th>
+        <th class="px-4 py-2">Звонить?</th>
+        <th class="px-4 py-2">Пожелания</th>
         <th class="px-4 py-2">Статус</th>
         <th class="px-4 py-2"></th>
       </tr>
@@ -37,19 +38,20 @@
       {% for name, order in orders.items %}
       <form method="POST">
           {% csrf_token %}
-        <tr>
+        <tr class="hover:bg-green-100">
           <td class="border px-4 py-2">{{ name }}</td>
           <td class="border px-4 py-2">
             {% for product in order.products %}
-               <p>{{ forloop.counter }}. {{product.name}} - {{product.price}} грн - {{product.amount}} шт. ;</p>
+               <p>{{ forloop.counter }}) {{product.name}} {{product.price}} грн, {{product.amount}} шт. ;</p>
             {% endfor %}
           </td>
           <td class="border px-4 py-2">{{ order.common_price }}</td>
           <td class="border px-4 py-2">{{ order.phone_number }}</td>
           <td class="border px-4 py-2">{% if order.dont_call %}&#10008;{% else %}&#10004;{% endif %}</td>
+          <td class="border px-4 py-2">{{ order.wishes }}</td>
           <td class="border px-4 py-2">{{ order.form.status }} <input name='order_id' type="text" value='{{ order.order_id }}' hidden></td>
           <td class="border px-4 py-2">
-            <button type="submit" class="bg-green-400 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            <button type="submit" class="bg-green-500 hover:bg-green-400 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
             Обновить
           </button>
         </td>
