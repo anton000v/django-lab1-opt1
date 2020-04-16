@@ -1,0 +1,81 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+
+
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+    {% block custom_css %}
+
+    {% endblock %}
+
+    <title>
+        {% block title %}
+            PropertyInfo
+        {% endblock %}
+    </title>
+
+</head>
+<body>
+
+
+<div class="container sm:w-full lg:w-3/5 mx-auto">
+      <nav class="flex items-center justify-between flex-wrap bg-green-500 p-6">
+        <div class="flex items-center flex-shrink-0 text-white mr-6">
+
+          <a href='/'><span class="font-semibold text-xl tracking-tight">Django| Вариант 1</span></a>
+        </div>
+        <!-- <div class="block lg:hidden">
+          <button class="flex items-center px-3 py-2 border rounded text-teal-200 border-teal-400 hover:text-white hover:border-white">
+            <svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Menu</title><path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"/></svg>
+          </button>
+        </div> -->
+        <div class="lg:w-auto">
+          <!-- <div class="text-sm lg:flex-grow"> -->
+            <!-- <a href="#responsive-header" class="block mt-4 lg:inline-block lg:mt-0 text-black-200 hover:text-white mr-4">
+              Docs
+            </a>
+            <a href="#responsive-header" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
+              Examples
+            </a>
+            <a href="#responsive-header" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white">
+              Blog
+            </a> -->
+          <!-- </div> -->
+        <!-- </div> -->
+        {% block accounts %}
+        {% endblock %}
+      </div>
+    </nav>
+
+    {% comment %}
+    <div class="page-header">
+        <a href="{% url 'property_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
+    </div>
+    {% endcomment %}
+
+
+    {% block content %}
+        Для вас нет контента
+    {% endblock %}
+
+</div>
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+{% block custom_js %}
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,72 @@
+{% extends 'Lab1/base.html' %}
+
+{% load static %}
+{% load add_attr %}
+
+{% block title %}
+    Admin page
+{% endblock %}
+
+{% block accounts %}
+{% if user.is_authenticated %}
+
+  <div class="text-white text-md"> Здравствуйте, {{ user.get_username }} </div>
+  <div class="py-2">
+    <a href="{% url 'logout'%}?next=/" class="mr-5 inline-block text-sm px-2 py-1 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0">Выйти</a>
+  </div>
+{% endif %}
+
+{% endblock %}
+
+
+{% block content %}
+{% if user.is_superuser %}
+  <table class="table-auto">
+    <thead>
+      <tr>
+        <th class="px-4 py-2">Имя</th>
+        <th class="px-4 py-2">Заказ</th>
+        <th class="px-4 py-2">Сумма</th>
+        <th class="px-4 py-2">Телефон</th>
+        <th class="px-4 py-2">Перезванивать</th>
+        <th class="px-4 py-2">Статус</th>
+        <th class="px-4 py-2"></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for name, order in orders.items %}
+      <form method="POST">
+          {% csrf_token %}
+        <tr>
+          <td class="border px-4 py-2">{{ name }}</td>
+          <td class="border px-4 py-2">
+            {% for product in order.products %}
+               <p>{{ forloop.counter }}. {{product.name}} - {{product.price}} грн - {{product.amount}} шт. ;</p>
+            {% endfor %}
+          </td>
+          <td class="border px-4 py-2">{{ order.common_price }}</td>
+          <td class="border px-4 py-2">{{ order.phone_number }}</td>
+          <td class="border px-4 py-2">{% if order.dont_call %}&#10008;{% else %}&#10004;{% endif %}</td>
+          <td class="border px-4 py-2">{{ order.form.status }} <input name='order_id' type="text" value='{{ order.order_id }}' hidden></td>
+          <td class="border px-4 py-2">
+            <button type="submit" class="bg-green-400 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            Обновить
+          </button>
+        </td>
+        </tr>
+      </form>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endif %}
+{% endblock %}
+
+{% block custom_js %}
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
+  <script>
+
+  </script>
+
+  <script src="{% static 'Lab1/js/basketControl.js' %}"> </script>
+{% endblock %}

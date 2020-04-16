@@ -1,0 +1,95 @@
+{% extends 'Lab1/base.html' %}
+{% load static %}
+{% block title %}
+    Shop
+{% endblock %}
+
+{% block accounts %}
+{% if user.is_authenticated %}
+
+  <div class="text-white text-md"> Здравствуйте, {{ user.get_username }} </div>
+  <div class="py-2">
+    <a href="{% url 'logout'%}?next={{request.path}}" class="mr-5 inline-block text-sm px-2 py-1 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0">Выйти</a>
+    {% if user.is_superuser %}
+      <a href="{% url 'admin-orders' %}" class="inline-block text-sm px-2 py-1 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0">Заказы</a>
+    {% else %}
+      <a href="{% url 'user_basket' %}" class="inline-block text-sm px-2 py-1 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0">Корзина</a>
+    {% endif %}
+  </div>
+{% else %}
+
+  <div>
+    <a href="{% url 'login'%}?next={{request.path}}" id="login-button" class="mr-5 inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0">Войти</a>
+    <a href="{% url 'sign_up'%}" class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0">Регистрация</a>
+  </div>
+{% endif %}
+
+{% endblock %}
+
+{% block content %}
+<!-- Modal window-->
+     <div id="modal_window" class="hidden bg-green-400  modal-content text-left px-6">
+       <!--Title-->
+         <p class="text-base text-red-500 hover:text-white">Сначала войдите в свой аккаунт</p>
+
+    </div>
+
+
+<!-- <h1 class="bg-gray-200 content-center">Товары</h1> -->
+<div class="grid grid-cols-3 gap-4 my-10">
+  {% for product in products %}
+      <div class="max-w-sm rounded overflow-hidden shadow-lg">
+      {% if product.product_image %}
+        <img class="w-full" src="{{ product.product_image.url }}" alt="product: {{ product.name }}">
+      {% endif %}
+
+      <div class="px-6 py-4">
+        <div class="font-bold text-xl mb-2">{{ product.name }}</div>
+        <p class="text-gray-700 text-base">
+          {{ product.price }} грн за 1 шт.
+        </p>
+      </div>
+      {% if not user.is_superuser %}
+      <div class="px-6 py-4" >
+        <div id="{{ product.id }}_amount_div" {% if product.id in products_in_basket %}style="display:none"{% endif %} class="flex items-center border-b border-b-2 border-teal-500 py-2">
+          <input id="{{ product.id }}_amount" class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none" type="number" placeholder="1">
+        <!-- <input class="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="{{ product.name }}_amount" type='text' placeholder="шт">
+          <input class="placeholder-gray-600 focus:placeholder-gray-500" placeholder="1" type='text'> -->
+          <label class="class=flex-shrink-0 border-transparent border-4 text-teal-500 hover:text-teal-800 text-sm py-1 px-2 rounded">
+            шт.
+          </label>
+        </div>
+
+        <div class = "my-2">
+            {% if product.id in products_in_basket %}
+              {% if is_basket_ordered %}
+                  <p class="text-sm">Заказ обрабатывается</p>
+              {% else %}
+              <button id='add_{{ product.id}}' class="hidden inline-block bg-green-300 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 hover:bg-green-200" onclick="AddToBasket('{{ product.id }}','{{ user_basket_id }}');">Добавить в корзину</button>
+              <button id='delete_{{ product.id }}' class="inline-block bg-red-300 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 hover:bg-red-200" onclick="removeFromBasket('{{ product.id }}','{{ user_basket_id }}');">Удалить из корзины</button>
+              {% endif %}
+            {% else %}
+              {% if not is_basket_ordered %}
+              <button id='add_{{ product.id}}' class="inline-block bg-green-300 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 hover:bg-green-200" onclick="AddToBasket('{{ product.id }}','{{ user_basket_id }}');">Добавить в корзину</button>
+              <button id='delete_{{ product.id }}' class="hidden inline-block bg-red-300 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 hover:bg-red-200" onclick="removeFromBasket('{{ product.id }}','{{ user_basket_id }}');">Удалить из корзины</button>
+              {% endif %}
+            {% endif %}
+
+        </div>
+
+      </div>
+        {% endif %}
+    </div>
+  {% endfor %}
+</div>
+
+
+{% endblock %}
+
+{% block custom_js %}
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
+  <script src="{% static 'Lab1/js/modalWindow.js' %}"> </script>
+
+  <script src="{% static 'Lab1/js/basketControl.js' %}"> </script>
+{% endblock %}
